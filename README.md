@@ -45,17 +45,17 @@ claude
 > lint
 ```
 
-## Commands
+## Usage
 
-| Command | What it does |
-|---------|-------------|
-| `ingest <path>` | Process raw source into wiki pages |
-| `ingest all new files in raw/` | Batch ingest |
-| `lint` | Check wiki health (broken links, orphans, contradictions) |
-| `enhance wiki/concepts/xxx.md` | Improve a specific page |
-| `compile` | Full rebuild from all raw sources (expensive) |
-| `evolve schema` | Suggest improvements to CLAUDE.md conventions |
-| Any question | Query the wiki first, then answer |
+The skill triggers automatically via natural language. Just tell the agent what you want:
+
+```
+> ingest raw/articles/my-article.md     ← processes source into wiki pages
+> lint                                   ← checks wiki health
+> What is event-driven architecture?     ← queries wiki, cites pages
+```
+
+All six workflows (ingest, query, lint, enhance, compile, evolve-schema) are documented in `skills/llm-wiki/SKILL.md`.
 
 ## Architecture
 
