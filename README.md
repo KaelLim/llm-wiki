@@ -1,12 +1,8 @@
-# llm-wiki — Superpowers Skill
+# llm-wiki
 
-A [Superpowers](https://github.com/obra/superpowers) skill for building personal knowledge bases using LLMs.
+A Claude Code plugin for building personal knowledge bases using LLMs.
 
 Based on Andrej Karpathy's [LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (April 2026) — the idea that the correct way to use LLMs with documents is not retrieval (RAG), but **knowledge compilation** into a persistent, interlinked wiki.
-
-## What it does
-
-Turns your coding agent into a disciplined wiki maintainer. The agent **compiles** raw sources into structured, cross-referenced Markdown pages that compound over time.
 
 ```
 raw/ (you add)  →  LLM compiles  →  wiki/ (agent maintains)  →  Obsidian (you read)
@@ -14,39 +10,24 @@ raw/ (you add)  →  LLM compiles  →  wiki/ (agent maintains)  →  Obsidian (
 
 ## Installation
 
-### Claude Code (with Superpowers plugin installed)
+### Claude Code (Plugin Marketplace)
 
 ```bash
-# 1. Clone this repo
-git clone https://github.com/KaelLim/llm-wiki.git
+# 1. Add the marketplace
+/plugin marketplace add KaelLim/llm-wiki
 
-# 2. Copy the skill into Superpowers plugin directory
-cp -r llm-wiki/llm-wiki-skill/skills/llm-wiki ~/.claude/plugins/superpowers/skills/
-
-# 3. Restart Claude Code — the skill is now available
+# 2. Install the plugin
+/plugin install llm-wiki@llm-wiki
 ```
 
-Alternatively, install into a specific project:
+### Manual Setup (any LLM agent)
 
-```bash
-cp -r llm-wiki/llm-wiki-skill/skills/llm-wiki /path/to/your/project/.claude/skills/
-```
-
-### Manual Setup (any agent)
-
-1. Copy `skills/llm-wiki/SKILL.md` content into your agent's system instructions (CLAUDE.md / AGENTS.md)
-2. Run the bootstrap script:
-
-```bash
-bash scripts/wiki-bootstrap.sh ~/my-wiki
-```
-
-3. Open `~/my-wiki` as an Obsidian vault
+Copy `skills/llm-wiki/SKILL.md` content into your agent's system instructions (CLAUDE.md / AGENTS.md).
 
 ## Quick Start
 
 ```bash
-# 1. Bootstrap
+# 1. Bootstrap a new wiki
 bash scripts/wiki-bootstrap.sh ~/my-wiki
 cd ~/my-wiki
 
@@ -73,13 +54,8 @@ claude
 | `lint` | Check wiki health (broken links, orphans, contradictions) |
 | `enhance wiki/concepts/xxx.md` | Improve a specific page |
 | `compile` | Full rebuild from all raw sources (expensive) |
+| `evolve schema` | Suggest improvements to CLAUDE.md conventions |
 | Any question | Query the wiki first, then answer |
-
-## Recommended Obsidian Plugins
-
-- **Dataview** — Query pages by frontmatter fields
-- **Calendar** — Track learning logs
-- **Graph View** (built-in) — Visualize knowledge connections
 
 ## Architecture
 
@@ -90,6 +66,12 @@ Based on Karpathy's three-layer design:
 | `raw/` | Human | Immutable source material |
 | `wiki/` | LLM | Compiled, interlinked knowledge pages |
 | `CLAUDE.md` | Both | Schema governing wiki conventions |
+
+## Recommended Obsidian Plugins
+
+- **Dataview** — Query pages by frontmatter fields
+- **Calendar** — Track learning logs
+- **Graph View** (built-in) — Visualize knowledge connections
 
 ## License
 

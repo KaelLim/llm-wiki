@@ -1,0 +1,19 @@
+{
+  "name": "llm-wiki",
+  "owner": {
+    "name": "KaelLim"
+  },
+  "metadata": {
+    "description": "Knowledge compilation skill based on Karpathy's LLM Wiki pattern",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "llm-wiki",
+      "source": "./",
+      "description": "Knowledge compilation skill for building personal wikis from raw sources",
+      "version": "1.0.0",
+      "strict": true
+    }
+  ]
+}
