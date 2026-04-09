@@ -1,10 +1,12 @@
 # llm-wiki — Superpowers Skill
 
-A [Superpowers](https://github.com/obra/superpowers) skill for building personal knowledge bases using Andrej Karpathy's [LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
+A [Superpowers](https://github.com/obra/superpowers) skill for building personal knowledge bases using LLMs.
+
+Based on Andrej Karpathy's [LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (April 2026) — the idea that the correct way to use LLMs with documents is not retrieval (RAG), but **knowledge compilation** into a persistent, interlinked wiki.
 
 ## What it does
 
-Turns your coding agent into a disciplined wiki maintainer. Instead of RAG (rediscovering knowledge every query), the agent **compiles** raw sources into a persistent, interlinked Markdown wiki.
+Turns your coding agent into a disciplined wiki maintainer. The agent **compiles** raw sources into structured, cross-referenced Markdown pages that compound over time.
 
 ```
 raw/ (you add)  →  LLM compiles  →  wiki/ (agent maintains)  →  Obsidian (you read)
@@ -12,16 +14,22 @@ raw/ (you add)  →  LLM compiles  →  wiki/ (agent maintains)  →  Obsidian (
 
 ## Installation
 
-### Claude Code (with Superpowers installed)
-
-Copy the `skills/llm-wiki/` directory into your Superpowers skills:
+### Claude Code (with Superpowers plugin installed)
 
 ```bash
-# If using the plugin marketplace version
-cp -r skills/llm-wiki ~/.claude/plugins/superpowers/skills/
+# 1. Clone this repo
+git clone https://github.com/KaelLim/llm-wiki.git
 
-# Or add to your project's local skills
-cp -r skills/llm-wiki /path/to/your/project/.claude/skills/
+# 2. Copy the skill into Superpowers plugin directory
+cp -r llm-wiki/llm-wiki-skill/skills/llm-wiki ~/.claude/plugins/superpowers/skills/
+
+# 3. Restart Claude Code — the skill is now available
+```
+
+Alternatively, install into a specific project:
+
+```bash
+cp -r llm-wiki/llm-wiki-skill/skills/llm-wiki /path/to/your/project/.claude/skills/
 ```
 
 ### Manual Setup (any agent)
