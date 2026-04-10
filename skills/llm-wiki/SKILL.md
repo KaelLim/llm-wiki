@@ -30,6 +30,30 @@ required fields, (2) at least one raw/ source citation, (3) at least two
 Violating any of these degrades the wiki's compounding value over time.
 </HARD-GATE>
 
+## Wiki Root Resolution
+
+<HARD-GATE>
+Before ANY wiki operation (ingest, query, lint, enhance, compile, evolve-schema),
+the agent MUST resolve the wiki root directory. NEVER create `raw/` or `wiki/`
+in the current working directory without confirming it IS the wiki root.
+</HARD-GATE>
+
+The wiki is a **single, central knowledge base** — not one per project. The agent
+resolves the wiki root in this order:
+
+1. **Current project's CLAUDE.md** — Look for a `wiki-root:` directive:
+   ```
+   wiki-root: /absolute/path/to/wiki
+   ```
+2. **Global config** — Check `~/.config/llm-wiki/root` (contains a single line: the absolute path)
+3. **Current directory** — Only if `raw/` AND `wiki/` both exist in the current directory
+
+If none of these resolve, **ask the user** where the wiki lives. Do NOT guess.
+Do NOT create `raw/` or `wiki/` in a non-wiki project directory.
+
+Once resolved, ALL `raw/` and `wiki/` paths in this skill are relative to the
+wiki root, NOT the current working directory.
+
 ## The Iron Law
 
 ```
@@ -428,22 +452,58 @@ The wiki is a **single, central knowledge base** — not one per project. Knowle
 compounds across domains: a concept from Project A may connect to insights from
 Project B. Splitting into separate wikis loses this cross-pollination.
 
-Recommended `raw/` structure for multiple projects:
+### Setup for Multiple Projects
+
+After bootstrapping the wiki (e.g. at `~/my-wiki`), point each project to it:
+
+**Option A — Per-project CLAUDE.md** (recommended):
+Add this line to each project's `CLAUDE.md`:
+```
+wiki-root: /absolute/path/to/my-wiki
+```
+
+**Option B — Global config** (one-time setup):
+```bash
+mkdir -p ~/.config/llm-wiki
+echo "/absolute/path/to/my-wiki" > ~/.config/llm-wiki/root
+```
+
+The bootstrap script (`scripts/wiki-bootstrap.sh`) sets up Option B automatically.
+
+### Directory Layout
 
 ```
-raw/
-  articles/           General articles, blog posts
-  papers/             Papers, whitepapers
-  notes/              Freeform notes
-  images/             Screenshots, diagrams
-  projects/           Per-project sources
-    project-a/
-    project-b/
+~/my-wiki/                    ← The ONE wiki (wiki root)
+  raw/
+    articles/                 ← General articles, blog posts
+    papers/                   ← Papers, whitepapers
+    notes/                    ← Freeform notes
+    images/                   ← Screenshots, diagrams
+    projects/                 ← Per-project sources
+      project-a/
+      project-b/
+  wiki/
+    concepts/
+    entities/
+    ...
+
+~/projects/                   ← Your code repos (unchanged)
+  project-a/
+    CLAUDE.md                 ← Contains: wiki-root: ~/my-wiki
+  project-b/
+    CLAUDE.md                 ← Contains: wiki-root: ~/my-wiki
 ```
 
 The `wiki/` layer remains flat — pages are organized by knowledge type, not by
 project. Use frontmatter `tags` (e.g. `tags: [project-a]`) to track provenance.
 Obsidian Dataview can filter by tag.
+
+### Anti-Pattern: Per-Project Wikis
+
+**NEVER** create `raw/` or `wiki/` inside a code project directory. If the agent
+is working in `~/projects/project-a/` and the user says "ingest", the agent must
+resolve the wiki root first (see Wiki Root Resolution above), then operate on
+the central wiki — not create a local wiki in the project.
 
 ## Scaling
 

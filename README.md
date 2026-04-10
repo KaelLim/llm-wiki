@@ -27,11 +27,11 @@ Copy `skills/llm-wiki/SKILL.md` content into your agent's system instructions (C
 ## Quick Start
 
 ```bash
-# 1. Bootstrap a new wiki
+# 1. Bootstrap a new wiki (creates directories + sets global config)
 bash scripts/wiki-bootstrap.sh ~/my-wiki
-cd ~/my-wiki
 
-# 2. Start Claude Code
+# 2. Open the wiki directory and start Claude Code
+cd ~/my-wiki
 claude
 
 # 3. Drop a source and ingest
@@ -44,6 +44,18 @@ claude
 # 5. Health check
 > lint
 ```
+
+## Multi-Project Setup
+
+The wiki is a **single, central knowledge base** — not one per project. The bootstrap script automatically saves the wiki path to `~/.config/llm-wiki/root`, so the agent knows where to find it from any project.
+
+To explicitly point a project to the wiki, add this to the project's `CLAUDE.md`:
+
+```
+wiki-root: /absolute/path/to/my-wiki
+```
+
+The agent will never create `raw/` or `wiki/` inside a code project directory.
 
 ## Usage
 

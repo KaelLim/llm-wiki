@@ -85,11 +85,22 @@ EOF
   echo "  ✅ Created .gitignore"
 fi
 
+# Set global wiki root config
+WIKI_ROOT="$(cd "$TARGET" && pwd)"
+mkdir -p ~/.config/llm-wiki
+echo "$WIKI_ROOT" > ~/.config/llm-wiki/root
+echo "  ✅ Set global wiki root: $WIKI_ROOT"
+
 echo ""
 echo "🎉 LLM Wiki bootstrapped successfully!"
+echo ""
+echo "Wiki root saved to: ~/.config/llm-wiki/root"
+echo "All projects will use this as the central knowledge base."
 echo ""
 echo "Next steps:"
 echo "  1. Open '$TARGET' as an Obsidian vault"
 echo "  2. Drop your first source into raw/articles/"
 echo "  3. Tell Claude Code: ingest raw/articles/<filename>"
+echo ""
+echo "Optional: Add 'wiki-root: $WIKI_ROOT' to each project's CLAUDE.md"
 echo ""
